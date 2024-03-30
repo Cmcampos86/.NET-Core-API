@@ -20,6 +20,10 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers(); //Mapeia todas as controllers
+
+//Formas de roteamento da controller
+app.MapGet("/", () => "Acesse /swagger para mais informações");
+app.MapGet("teste-get", () => "Teste");
 
 app.Run();
