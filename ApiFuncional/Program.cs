@@ -3,14 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        //desabilita o filtro de erros que é mostrado quando um método da api contem erros. Se desabilitar, a responsabilidate de validação fica a cargo do desenvolvedor
+        options.SuppressModelStateInvalidFilter = true; 
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Configurar o EF Core
+//Configuração do banco de dados
 builder.Services.AddDbContext<ApiDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -18,7 +22,6 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
