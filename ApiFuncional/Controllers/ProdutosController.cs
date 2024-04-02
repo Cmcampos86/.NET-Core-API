@@ -1,10 +1,12 @@
 ﻿using ApiFuncional.Data;
 using ApiFuncional.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiFuncional.Controllers
 {
+    [Authorize] //Habilita a autorização em todos os métodos
     [ApiController]
     [Route("api/produtos")]
     public class ProdutosController : ControllerBase
@@ -30,6 +32,7 @@ namespace ApiFuncional.Controllers
             return await _context.Produtos.ToListAsync();
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
