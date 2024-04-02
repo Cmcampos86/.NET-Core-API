@@ -32,7 +32,8 @@ namespace ApiFuncional.Controllers
             return await _context.Produtos.ToListAsync();
         }
 
-        [AllowAnonymous] //Permite que ão tenha autorização
+        [AllowAnonymous] //Permite que não tenha autorização
+        //[EnableCors("Production")] //Força um CORS sobrepondo a configuração no Program.cs
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
