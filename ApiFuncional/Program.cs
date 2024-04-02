@@ -1,4 +1,5 @@
 using ApiFuncional.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,11 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+//Configuração do Identity
+builder.Services.AddIdentity<IdentityUser, IdentityRole>() //IdentityUser representa o usuário logado e IdentityRole representa o perfil
+                .AddRoles<IdentityRole>() //Adiciona Perfis
+                .AddEntityFrameworkStores<ApiDbContext>(); //Mecanismo de store e para qual contexto de Banco de Dados
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -29,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
